@@ -1,12 +1,28 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace DnsTube
 {
 	public class Utility
 	{
-		public static string GetPublicIpAddress(HttpClient Client, out string errorMesssage)
+        public static List<string> GetLocalIPAddresses()
+        {
+            var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+            var addresses = new List<string>();
+            foreach (var ip in host.AddressList)
+            {
+                //Filter for ipv4 addresses
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    addresses.Add(ip.ToString());
+                }
+            }
+            return addresses;
+        }
+
+        public static string GetPublicIpAddress(HttpClient Client, out string errorMesssage)
 		{
 			string publicIpAddress = null;
 			var maxAttempts = 3;

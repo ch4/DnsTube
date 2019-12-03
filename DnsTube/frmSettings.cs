@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DnsTube
@@ -11,7 +12,10 @@ namespace DnsTube
 		{
 			settings = settings2;
 			InitializeComponent();
-		}
+            textBox1.Text = "";
+
+            Utility.GetLocalIPAddresses().ToList().ForEach(x => textBox1.Text += (x+"\r\n"));
+        }
 
 		void btnCancel_Click(object sender, EventArgs e)
 		{
@@ -43,5 +47,5 @@ namespace DnsTube
 				e.Handled = true;
 			}
 		}
-	}
+    }
 }
